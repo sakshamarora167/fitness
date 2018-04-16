@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">fitness</string>
+    <string name="slogan">Track your weight , activity , water and food calories to meet your fitness goal</string>
+    <string name="HpgSignup">Sign Up</string>
+    <string name="HpgLogin">Log In</string>
+    <string name="appName">Get Fit</string>
+</resources>
