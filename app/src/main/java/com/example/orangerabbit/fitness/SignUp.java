@@ -1,10 +1,20 @@
 package com.example.orangerabbit.fitness;
 
+import android.app.ProgressDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
+
+import com.example.orangerabbit.fitness.Model.User;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class SignUp extends AppCompatActivity {
 
@@ -21,12 +31,46 @@ public class SignUp extends AppCompatActivity {
         editPhone=findViewById(R.id.editPhone);
         btnSignUp=findViewById(R.id.btnSignUp);
 
+        final FirebaseDatabase database = FirebaseDatabase.getInstance();
+        final DatabaseReference table_user = database.getReference("User");
+
         btnSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
+                final ProgressDialog mDialog = new ProgressDialog(SignUp.this);
+                mDialog.setMessage("Please wait..");
+                mDialog.show();
+                Log.d("myTag", "onclick part");
+                table_user.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        if(dataSnapshot.child(editPhone.getText().toString()).exists())
+                        {
+                            mDialog.dismiss();
+                            Log.d("myTag2", "IF part");
+                            Toast.makeText(SignUp.this,"Phone number already exists",Toast.LENGTH_SHORT).show();
+                        }
+                        else
+                        {
+                            mDialog.dismiss();
+                            User user = new User(editName.getText().toString(),editPassword.getText().toString());
+                            table_user.child(editPhone.getText().toString()).setValue(user);
+                            Log.d("myTag3", "Else part");
+                            Toast.makeText(SignUp.this,"User details added",Toast.LENGTH_SHORT).show();
+                            finish();
+
+                        }
+
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
             }
         });
-
     }
+
 }

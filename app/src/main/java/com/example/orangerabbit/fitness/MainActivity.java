@@ -31,19 +31,18 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
-
-        HpgLogInButton.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view) {
-                Intent logIn = new Intent(MainActivity.this,LogIn.class);
-                startActivity(logIn);
-            }
-        });
         HpgSignUpButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent signUp = new Intent(MainActivity.this,SignUp.class);
                 startActivity(signUp);
+            }
+        });
+        HpgLogInButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                Intent logIn = new Intent(MainActivity.this,LogIn.class);
+                startActivity(logIn);
             }
         });
 
