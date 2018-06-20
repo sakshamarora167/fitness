@@ -1,0 +1,279 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".fitnessDetail">
+
+
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        android:fitsSystemWindows="true"
+        >
+
+        <android.support.design.widget.CollapsingToolbarLayout
+            android:id="@+id/collapsing"
+            android:layout_width="match_parent"
+            android:layout_height="210dp"
+            android:fitsSystemWindows="true"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed"
+            app:contentScrim="#0e0d0e"
+            app:expandedTitleTextAppearance="@android:color/transparent"
+            >
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+            <ImageView
+                android:id="@+id/img_fitness"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:contentDescription="@null"
+                android:scaleType="centerCrop"
+                app:layout_collapseMode="parallax"/>
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/food_names"
+                android:layout_marginTop="8dp"
+                android:padding="12dp"
+                android:text="Food Name"
+                android:layout_alignParentBottom="true"
+                android:textSize="20sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="1dp"
+                android:gravity="center"
+                android:textColor="#FFFFFF" />
+
+        </RelativeLayout>
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:title="Fitness Attributes"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+            app:layout_collapseMode="parallax">
+
+        </android.support.v7.widget.Toolbar>
+
+        </android.support.design.widget.CollapsingToolbarLayout>
+
+
+    </android.support.design.widget.AppBarLayout>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/Add_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@android:color/white"
+        app:elevation="6dp"
+        app:pressedTranslationZ="12dp"
+        app:layout_anchor="@id/collapsing"
+        app:srcCompat="@drawable/ic_restaurant_menu_black_24dp"
+        app:layout_anchorGravity="bottom|right|end"
+        app:useCompatPadding="true"
+        />
+
+    <android.support.v4.widget.NestedScrollView
+        android:id="@+id/nestedScrollView"
+        android:clipToPadding="false"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        >
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardElevation="5dp"
+                app:cardUseCompatPadding="true"
+                >
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <LinearLayout
+                        android:id="@+id/layout_calories"
+                        android:orientation="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <in.goodiebag.carouselpicker.CarouselPicker
+                        android:id="@+id/carouselPicker"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp"
+                        android:layout_marginBottom="20dp"
+                        android:background="#DDD"
+                        app:items_visible="three"
+                        />
+                        <in.goodiebag.carouselpicker.CarouselPicker
+                            android:id="@+id/carouselPicker2"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="20dp"
+                            android:layout_marginBottom="20dp"
+                            android:background="#DDD"
+                            app:items_visible="three"
+                            />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </android.support.v7.widget.CardView>
+
+
+                <LinearLayout
+
+                    android:orientation="horizontal"
+                    android:fitsSystemWindows="true"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <LinearLayout
+                        android:orientation="vertical"
+                        android:padding="5dp"
+                        android:layout_weight="0.25"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent">
+
+                        <TextView
+                            android:id="@+id/food_proteins"
+                            android:text = "Proteins"
+                            android:layout_gravity="center"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+
+                        <ImageView
+                            android:id="@+id/img_proteins"
+                            android:background="@drawable/protein"
+                            android:layout_gravity="center"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp" />
+
+                        <TextView
+                            android:id="@+id/proteins_data"
+                            android:text = "Proteins_Data"
+                            android:layout_gravity="center"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:orientation="vertical"
+                        android:padding="5dp"
+                        android:layout_weight="0.25"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent">
+
+                        <TextView
+                            android:id="@+id/food_fiber"
+                            android:text = "Fiber"
+                            android:layout_gravity="center"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+
+                        <ImageView
+                            android:id="@+id/img_fiber"
+                            android:background="@drawable/fiber_food"
+                            android:layout_gravity="center"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp" />
+
+                        <TextView
+                            android:id="@+id/fiber_data"
+                            android:text = "Fiber_Data"
+                            android:layout_gravity="center"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:orientation="vertical"
+                        android:padding="5dp"
+                        android:layout_weight="0.25"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent">
+
+                        <TextView
+                            android:id="@+id/food_carbs"
+                            android:text = "Carbohydrates"
+                            android:layout_gravity="center"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+
+                        <ImageView
+                            android:id="@+id/img_carbs"
+                            android:background="@drawable/carb_foods"
+                            android:layout_gravity="center"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp" />
+
+                        <TextView
+                            android:id="@+id/carbs_data"
+                            android:text = "Carbs_Data"
+                            android:layout_gravity="center"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:orientation="vertical"
+                        android:padding="5dp"
+                        android:layout_weight="0.25"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent">
+
+                        <TextView
+                            android:id="@+id/food_fats"
+                            android:text = "Fats"
+                            android:layout_gravity="center"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+
+                        <ImageView
+                            android:id="@+id/img_fats"
+                            android:background="@drawable/fatty_food"
+                            android:layout_gravity="center"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp" />
+
+                        <TextView
+                            android:id="@+id/fats_data"
+                            android:text = "Fats_Data"
+                            android:layout_gravity="center"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+
+
+        </LinearLayout>
+
+
+
+    </android.support.v4.widget.NestedScrollView>
+
+</android.support.design.widget.CoordinatorLayout>

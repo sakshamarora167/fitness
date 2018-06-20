@@ -1,11 +1,15 @@
 package com.example.orangerabbit.fitness;
 
+import android.app.ProgressDialog;
+import android.content.Intent;
+//import android.media.Image;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+//import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -17,21 +21,26 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.ViewGroup;
-import android.widget.RelativeLayout;
+//import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.orangerabbit.fitness.Common.Common;
 import com.example.orangerabbit.fitness.Interface.ItemClickListener;
 import com.example.orangerabbit.fitness.Model.Category;
+//import com.example.orangerabbit.fitness.Model.User;
 import com.example.orangerabbit.fitness.ViewHolder.FitnessViewHolder;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
-import static com.example.orangerabbit.fitness.R.layout.fitness_item;
+//import static com.example.orangerabbit.fitness.R.layout.fitness_item;
 
 
 public class Home extends AppCompatActivity
@@ -41,24 +50,30 @@ public class Home extends AppCompatActivity
     RecyclerView recycler_fitness;
     RecyclerView.LayoutManager layoutManager;
 
+    String WelcomeName;
+    View headerView;
     FirebaseDatabase database;
     DatabaseReference category;
+    Query fitnessQuery;
+    DatabaseReference fitnessRef;
+    FirebaseRecyclerAdapter<Category,FitnessViewHolder> adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle("Menu");
         setSupportActionBar(toolbar);
 
         //Init Firebase
         database = FirebaseDatabase.getInstance();
-        category = database.getReference("Item");
+        category = database.getReference("Items");
+        category.keepSynced(true);
 
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -67,44 +82,75 @@ public class Home extends AppCompatActivity
             }
         });
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
         //Set user's full name
-        View headerView = navigationView.getHeaderView(0);
-        textFullName = findViewById(R.id.txtFullName);
+        headerView = navigationView.getHeaderView(0);
+        textFullName = headerView.findViewById(R.id.txtFullName);
+        WelcomeName =  Common.currentUser.getName();
         textFullName.setText(Common.currentUser.getName());
 
         //Load attributes
-        recycler_fitness = (RecyclerView)findViewById(R.id.recycler_menu);
+        recycler_fitness = findViewById(R.id.recycler_menu);
         recycler_fitness.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(this);
         recycler_fitness.setLayoutManager(layoutManager);
 
+
+        fitnessRef = FirebaseDatabase.getInstance().getReference().child("Items");
+        fitnessQuery = fitnessRef.orderByKey();
         loadAttribute();
     }
 
     private void loadAttribute() {
+        final ProgressDialog mDialog = new ProgressDialog(Home.this);
+        mDialog.setMessage("Please wait..");
+        mDialog.show();
+
+        category.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                mDialog.dismiss();
+               // Category categ = dataSnapshot.child("01").getValue(Category.class);
+                Toast.makeText(Home.this,"Welcome "+WelcomeName,Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
         FirebaseRecyclerOptions<Category> options =
                 new FirebaseRecyclerOptions.Builder<Category>()
-                        .setQuery(category, Category.class)
+                        .setQuery(fitnessQuery, Category.class)
                         .build();
-        FirebaseRecyclerAdapter<Category,FitnessViewHolder> adapter = new FirebaseRecyclerAdapter<Category, FitnessViewHolder>(options) {
+
+        adapter = new FirebaseRecyclerAdapter<Category, FitnessViewHolder>(options) {
             @Override
             protected void onBindViewHolder(@NonNull FitnessViewHolder holder, int position, @NonNull Category model) {
+                //Log.w("Check","Model Name = "+model.getName());
                 holder.txtFitnessName.setText(model.getName());
                 Picasso.with(getBaseContext()).load(model.getImage()).into(holder.imageView);
                 final Category clickItem = model;
                 holder.setItemClickListener(new ItemClickListener() {
                     @Override
-                    public void onClick(View view, int position, boolean isLongClick) {
-                        Toast.makeText(Home.this," "+clickItem.getName(), Toast.LENGTH_SHORT).show();
+                    public void onClick(View view , int position, boolean isLongClick) {
+                        if(adapter.getRef(position).getKey().equals("01")) {
+                            Intent foodList = new Intent(Home.this, FoodList.class);
+                            foodList.putExtra("CategoryId", adapter.getRef(position).getKey());
+                            startActivity(foodList);
+                        }
+                        else{
+                            Toast.makeText(Home.this," "+clickItem.getName(), Toast.LENGTH_SHORT).show();
+                        }
                     }
                 });
             }
@@ -112,16 +158,20 @@ public class Home extends AppCompatActivity
             @NonNull
             @Override
             public FitnessViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-                return null;
+                View view = LayoutInflater.from(parent.getContext())
+                        .inflate(R.layout.fitness_item, parent, false);
+
+                return new FitnessViewHolder(view);
             }
         };
+        adapter.startListening();
         recycler_fitness.setAdapter(adapter);
     }
 
 
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
@@ -144,7 +194,7 @@ public class Home extends AppCompatActivity
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
@@ -158,7 +208,7 @@ public class Home extends AppCompatActivity
 
         }
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }

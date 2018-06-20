@@ -9,9 +9,9 @@ public class Category {
 
     }
 
-    public Category(String name, String image) {
-        Name = name;
-        Image = image;
+    public Category(String Name, String Image) {
+        this.Name = Name;
+        this.Image = Image;
     }
 
     public String getName() {

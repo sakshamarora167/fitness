@@ -26,10 +26,10 @@ public class SignUp extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
 
-        editPassword=findViewById(R.id.editPassword);
-        editName=findViewById(R.id.editName);
-        editPhone=findViewById(R.id.editPhone);
-        btnSignUp=findViewById(R.id.btnSignUp);
+        editPassword = findViewById(R.id.editPassword);
+        editName = findViewById(R.id.editName);
+        editPhone = findViewById(R.id.editPhone);
+        btnSignUp = findViewById(R.id.btnSignUp);
 
         final FirebaseDatabase database = FirebaseDatabase.getInstance();
         final DatabaseReference table_user = database.getReference("User");
@@ -37,38 +37,41 @@ public class SignUp extends AppCompatActivity {
         btnSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if(editPhone.getText().toString().length() != 10 ){
+                    editPhone.setError("number is incorrect");
+                }else if(editPassword.getText().toString().isEmpty()){
+                    editPassword.setError("input password");
+                }else{
 
-                final ProgressDialog mDialog = new ProgressDialog(SignUp.this);
-                mDialog.setMessage("Please wait..");
-                mDialog.show();
-                Log.d("myTag", "onclick part");
-                table_user.addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        if(dataSnapshot.child(editPhone.getText().toString()).exists())
-                        {
-                            mDialog.dismiss();
-                            Log.d("myTag2", "IF part");
-                            Toast.makeText(SignUp.this,"Phone number already exists",Toast.LENGTH_SHORT).show();
+                    final ProgressDialog mDialog = new ProgressDialog(SignUp.this);
+                    mDialog.setMessage("Please wait..");
+                    mDialog.show();
+                    Log.d("myTag", "onclick part");
+                    table_user.addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            if (dataSnapshot.child(editPhone.getText().toString()).exists()) {
+                                mDialog.dismiss();
+                                Log.d("myTag2", "IF part");
+                                Toast.makeText(SignUp.this, "Phone number already exists", Toast.LENGTH_SHORT).show();
+                            } else {
+                                mDialog.dismiss();
+                                User user = new User(editName.getText().toString(), editPassword.getText().toString());
+                                table_user.child(editPhone.getText().toString()).setValue(user);
+                                Log.d("myTag3", "Else part");
+                                Toast.makeText(SignUp.this, "User details added", Toast.LENGTH_SHORT).show();
+                                finish();
+
+                            }
                         }
-                        else
-                        {
-                            mDialog.dismiss();
-                            User user = new User(editName.getText().toString(),editPassword.getText().toString());
-                            table_user.child(editPhone.getText().toString()).setValue(user);
-                            Log.d("myTag3", "Else part");
-                            Toast.makeText(SignUp.this,"User details added",Toast.LENGTH_SHORT).show();
-                            finish();
+
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
 
                         }
-
-                    }
-
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
-
-                    }
-                });
+                    });
+                }
             }
         });
     }
