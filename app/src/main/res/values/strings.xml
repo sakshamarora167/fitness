@@ -15,4 +15,9 @@
     <string name="nav_header_subtitle">android.studio@android.com</string>
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
+    <string name="title_activity_water">activity_water</string>
+    <string name="water_intake">Water Intake</string>
+    <string name="glasses_consumed">glasses consumed</string>
+    <string name="reminder_ellipsis">reminder_ellipsis</string>
+
 </resources>

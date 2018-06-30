@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import com.example.orangerabbit.fitness.Common.Common;
 import com.example.orangerabbit.fitness.Model.User;
+import com.fasterxml.jackson.databind.node.IntNode;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -19,11 +20,22 @@ import com.google.firebase.database.ValueEventListener;
 
 public class LogIn extends AppCompatActivity {
     private EditText editPhone,editPassword;
+    UserSessionManager session;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_log_in);
+
+//        setContentView(R.layout.activity_main);
+//        Common.sp = getSharedPreferences("login",MODE_PRIVATE);
+//
+//        if(Common.sp.getBoolean("logged",false)){
+//            goToMainActivity();
+//        }
+
+       // session = new UserSessionManager(getApplicationContext());
 
         editPassword=findViewById(R.id.editPassword);
         editPhone=findViewById(R.id.editPhone);
@@ -48,10 +60,14 @@ public class LogIn extends AppCompatActivity {
                         User user = dataSnapshot.child(editPhone.getText().toString()).getValue(User.class);
                             if (user != null) {
                                 if(user.getPassword().equals(editPassword.getText().toString())){
+                                    //session.createUserLoginSession(editPhone.getText().toString(),editPassword.getText().toString());
                                     Intent intentHome = new Intent(LogIn.this,Home.class);
+//                                    intentHome.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//                                    intentHome.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                     Common.currentUser = user;
-                                    startActivity(intentHome);
                                     finish();
+                                    startActivity(intentHome);
+//                                    Common.sp.edit().putBoolean("logged",true).apply();
                                 }
                                 else{
                                     Toast.makeText(LogIn.this,"Sign in failed",Toast.LENGTH_SHORT).show();
@@ -74,4 +90,9 @@ public class LogIn extends AppCompatActivity {
 
 
     }
+    public void goToMainActivity(){
+        Intent i = new Intent(this,Home.class);
+        startActivity(i);
+    }
+
 }

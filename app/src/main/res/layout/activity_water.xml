@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/lib/me.itangqi.waveloadingview"
+    xmlns:app2="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activity_water">
+
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/AppTheme.AppBarOverlay"
+        android:fitsSystemWindows="true">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            >
+
+            <TextView
+                android:id="@+id/WaterIntake"
+                android:layout_marginTop="10dp"
+                android:layout_width="140dp"
+                android:layout_height="40dp"
+                android:textStyle="bold"
+                android:textSize="20sp"
+                android:typeface="serif"
+                android:layout_gravity="center"
+                android:text="@string/water_intake" />
+
+            <ImageButton
+                style="?android:attr/actionOverflowButtonStyle"
+                android:id="@+id/ellipsis"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:onClick="showPopup"
+                android:contentDescription="@string/reminder_ellipsis" />
+
+        </android.support.v7.widget.Toolbar>
+
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="60dp">
+
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="180dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="start"
+                android:layout_marginEnd="85dp"
+                android:layout_marginRight="85dp"
+                android:text="Of  9  Glasses"
+                android:textSize="25sp"
+                app2:layout_constraintBottom_toBottomOf="parent"
+                app2:layout_constraintEnd_toEndOf="parent"
+                app2:layout_constraintStart_toEndOf="@+id/consumedGlasses"
+                app2:layout_constraintTop_toTopOf="parent"
+                app2:layout_constraintVertical_bias="0.0"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.0" />
+
+            <TextView
+                android:id="@+id/consumedGlasses"
+                android:layout_width="80dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="end"
+                android:layout_marginEnd="3dp"
+                android:layout_marginLeft="37dp"
+                android:layout_marginRight="3dp"
+                android:layout_marginStart="37dp"
+                android:text="@string/glasses_consumed"
+                android:textAlignment="viewEnd"
+                android:textSize="25sp"
+                app2:layout_constraintBottom_toBottomOf="parent"
+                app2:layout_constraintEnd_toStartOf="@+id/textView2"
+                app2:layout_constraintStart_toStartOf="parent"
+                app2:layout_constraintTop_toTopOf="parent"
+                app2:layout_constraintVertical_bias="0.0"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.0" />
+
+
+        </android.support.constraint.ConstraintLayout>
+
+    </android.support.design.widget.AppBarLayout>
+
+    <include layout="@layout/content_activity_water"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="120dp">
+
+        <ImageButton
+            android:id="@+id/subtractGlass"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="40dp"
+            android:layout_marginTop="73dp"
+            app2:layout_constraintBottom_toBottomOf="parent"
+            app2:layout_constraintStart_toStartOf="parent"
+            app2:layout_constraintTop_toTopOf="parent"
+            app2:layout_constraintVertical_bias="0.0"
+            app2:srcCompat="@drawable/baseline_remove_black_18dp"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="43dp" />
+
+        <me.itangqi.waveloadingview.WaveLoadingView
+            android:id="@+id/WaveLoadingView"
+            android:layout_marginTop="30dp"
+            android:layout_width="140dp"
+            android:layout_height="140dp"
+            android:layout_centerHorizontal="true"
+            app2:wlv_waveColor="@android:color/holo_blue_light"
+            app2:wlv_borderColor="@android:color/holo_blue_dark"
+            app:wlv_shapeType="circle"
+            app2:wlv_borderWidth="3dp"
+            app2:wlv_round_rectangle="true"
+            app2:wlv_triangle_direction="north"
+
+            app:wlv_titleCenterStrokeColor="@android:color/holo_blue_dark"
+            app:wlv_titleCenterStrokeWidth="3dp"
+            app:wlv_titleCenterColor="@android:color/white"
+            app:wlv_titleCenterSize="24sp"
+
+            app:wlv_titleTopStrokeColor="@android:color/holo_blue_dark"
+            app:wlv_titleTopStrokeWidth="3dp"
+            app:wlv_titleTopColor="@android:color/white"
+            app:wlv_titleTopSize="24sp"
+
+            app:wlv_titleBottomStrokeColor="@android:color/holo_blue_dark"
+            app:wlv_titleBottomStrokeWidth="3dp"
+            app:wlv_titleBottomColor="@android:color/white"
+            app:wlv_titleBottomSize="24sp"
+
+            app2:wlv_waveAmplitude="20"
+
+            />
+
+        <ImageButton
+            android:id="@+id/addGlass"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginEnd="40dp"
+            android:layout_marginTop="73dp"
+            app2:layout_constraintBottom_toBottomOf="parent"
+            app2:layout_constraintEnd_toEndOf="parent"
+            app2:layout_constraintTop_toTopOf="parent"
+            app2:srcCompat="@android:drawable/ic_input_add"
+            android:layout_marginRight="53dp"
+            android:layout_alignParentRight="true" />
+
+        <SeekBar
+            android:id="@+id/seekBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="120dp"
+            android:max="100" />
+
+    </RelativeLayout>
+
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app2:srcCompat="@drawable/ic_lightbulb_outline_black_24dp"
+        app2:elevation="6dp"
+        app2:useCompatPadding="true"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="@dimen/fab_margin"
+         />
+
+
+</android.support.design.widget.CoordinatorLayout>

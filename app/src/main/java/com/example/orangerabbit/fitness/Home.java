@@ -40,6 +40,8 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
+import java.util.HashMap;
+
 //import static com.example.orangerabbit.fitness.R.layout.fitness_item;
 
 
@@ -57,11 +59,13 @@ public class Home extends AppCompatActivity
     Query fitnessQuery;
     DatabaseReference fitnessRef;
     FirebaseRecyclerAdapter<Category,FitnessViewHolder> adapter;
+    UserSessionManager session;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+        session = new UserSessionManager(getApplicationContext());
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle("Menu");
@@ -107,6 +111,15 @@ public class Home extends AppCompatActivity
         fitnessRef = FirebaseDatabase.getInstance().getReference().child("Items");
         fitnessQuery = fitnessRef.orderByKey();
         loadAttribute();
+
+        if(session.checkLogin()){
+            finish();
+        }
+
+        HashMap<String,String> user = session.getuserDetails();
+        String name = user.get(UserSessionManager.KEY_NAME);
+
+        String number = user.get(UserSessionManager.KEY_NUMBER);
     }
 
     private void loadAttribute() {
@@ -148,6 +161,11 @@ public class Home extends AppCompatActivity
                             foodList.putExtra("CategoryId", adapter.getRef(position).getKey());
                             startActivity(foodList);
                         }
+                        else if(adapter.getRef(position).getKey().equals("02")) {
+                            Intent waterConsumption = new Intent(Home.this, activity_water.class);
+                            //foodList.putExtra("CategoryId", adapter.getRef(position).getKey());
+                            startActivity(waterConsumption);
+                        }
                         else{
                             Toast.makeText(Home.this," "+clickItem.getName(), Toast.LENGTH_SHORT).show();
                         }
@@ -171,12 +189,7 @@ public class Home extends AppCompatActivity
 
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = findViewById(R.id.drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
-        } else {
-            super.onBackPressed();
-        }
+        finish();
     }
 
     @Override
