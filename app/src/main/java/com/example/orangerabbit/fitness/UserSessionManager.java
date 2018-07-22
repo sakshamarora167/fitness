@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 
+import com.example.orangerabbit.fitness.Common.Common;
+
 import java.util.HashMap;
 
 class UserSessionManager {
@@ -14,8 +16,9 @@ class UserSessionManager {
     private static final String Prefer_name = "AndroidExamplePref";
     private static final String Is_User_Login = "IsUserLoggedIn";
 
-    public static final String KEY_NAME = "name";
-    public static final String KEY_NUMBER = "number";
+    private static final String KEY_NAME = "name";
+    private static final String KEY_NUMBER = "number";
+
 
     UserSessionManager(Context context) {
         this.context = context;
@@ -35,13 +38,14 @@ class UserSessionManager {
     public boolean checkLogin() {
 
         if(!this.isUserLoggedIn()){
-            Intent i = new Intent(context,LogIn.class);
-            i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            context.startActivity(i);
-            return true;
+//            i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//            i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//
+//            context.startActivity(i);
+            return false;
         }
-        return false;
+        context.startActivity(new Intent(context,Home.class));
+        return true;
     }
 
     public HashMap<String,String> getuserDetails() {
@@ -58,9 +62,10 @@ class UserSessionManager {
     public void logoutUser(){
         editor.clear();
         editor.commit();
+        editor.putBoolean(Is_User_Login,false);
+        Common.currentUser=null;
+
         Intent i = new Intent(context,MainActivity.class);
-        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(i);
     }
 }

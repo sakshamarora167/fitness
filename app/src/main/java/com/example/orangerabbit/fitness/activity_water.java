@@ -3,6 +3,7 @@ package com.example.orangerabbit.fitness;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Point;
+import android.graphics.Rect;
 import android.os.Bundle;
 import com.example.orangerabbit.fitness.WaterFacts.waterFacts;
 import android.support.design.widget.FloatingActionButton;
@@ -10,6 +11,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Display;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -20,10 +22,11 @@ import android.widget.PopupWindow;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
+import com.example.orangerabbit.fitness.pop;
 
-//import java.util.Random;
 
 import java.util.Locale;
+import java.util.Random;
 
 import me.itangqi.waveloadingview.WaveLoadingView;
 
@@ -33,9 +36,33 @@ public class activity_water extends AppCompatActivity {
     ImageButton ellipsis,addGlass,subGlass;
     FloatingActionButton Facts;
     WaveLoadingView Water_percentage;
+    PopupWindow popupWindow = new PopupWindow();
     SeekBar seekBar;
+//    pop pw = new pop();
+    public static final Random randomFact = new Random();
   //  private int count=0;
 
+
+
+//    public static Rect locateView(View v)
+//    {
+//        int[] loc_int = new int[2];
+//        if (v == null) return null;
+//        try
+//        {
+//            v.getLocationOnScreen(loc_int);
+//        } catch (NullPointerException npe)
+//        {
+//            //Happens when the view doesn't exist on screen anymore.
+//            return null;
+//        }
+//        Rect location = new Rect();
+//        location.left = loc_int[0];
+//        location.top = loc_int[1];
+//        location.right = location.left + v.getWidth();
+//        location.bottom = location.top + v.getHeight();
+//        return location;
+//    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,15 +72,18 @@ public class activity_water extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         //toolbar.setNavigationIcon(R.drawable.ic_toolbar);
-        toolbar.setTitle("");
-        toolbar.setSubtitle("");
+//        toolbar.setTitle("");
+//        toolbar.setSubtitle("");
+//        ((TextView)pw.findViewById(R.id.facts_verse)).setText(pop.displayFacts());
 
-        //FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         Facts = findViewById(R.id.fab);
+//        final Rect loc = locateView(Facts);
         Facts.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-               startActivity(new Intent(activity_water.this,pop.class));
+//                popupWindow.showAtLocation(parent, Gravity.TOP| Gravity.LEFT, loc.left, loc.bottom);
+                startActivity(new Intent(activity_water.this,pop.class));
+                //pw.showAt
             }
         });
 
@@ -74,7 +104,8 @@ public class activity_water extends AppCompatActivity {
                 popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                     @Override
                     public boolean onMenuItemClick(MenuItem item) {
-                        Toast.makeText(activity_water.this,"Will remind at Noon",Toast.LENGTH_LONG).show();
+                        startActivity(new Intent(activity_water.this,waterReminder.class));
+                        Toast.makeText(activity_water.this,"Reminder set",Toast.LENGTH_LONG).show();
                         return  true;
                     }
                 });

@@ -65,7 +65,8 @@ public class Home extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-        session = new UserSessionManager(getApplicationContext());
+
+        //HashMap<String,String> user = session.getuserDetails();
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle("Menu");
@@ -112,14 +113,14 @@ public class Home extends AppCompatActivity
         fitnessQuery = fitnessRef.orderByKey();
         loadAttribute();
 
-        if(session.checkLogin()){
-            finish();
-        }
+//        if(session.checkLogin()){
+//            finish();
+//        }
 
-        HashMap<String,String> user = session.getuserDetails();
-        String name = user.get(UserSessionManager.KEY_NAME);
-
-        String number = user.get(UserSessionManager.KEY_NUMBER);
+//        HashMap<String,String> user = session.getuserDetails();
+//        String name = user.get(UserSessionManager.KEY_NAME);
+//
+//        String number = user.get(UserSessionManager.KEY_NUMBER);
     }
 
     private void loadAttribute() {
@@ -213,12 +214,10 @@ public class Home extends AppCompatActivity
 
         if (id == R.id.nav_home) {
             // Handle the camera action
-        } else if (id == R.id.nav_me) {
-
-        } else if (id == R.id.nav_notifications) {
-
-        } else if (id == R.id.nav_signOut) {
-
+        }else if (id == R.id.nav_signOut) {
+            session = new UserSessionManager(getApplicationContext());
+            session.logoutUser();
+            finish();
         }
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);

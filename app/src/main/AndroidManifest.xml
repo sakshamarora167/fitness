@@ -32,10 +32,15 @@
             android:name=".activity_water"
             android:label="@string/title_activity_water"
             android:theme="@style/AppTheme" />
-
-        <activity android:name=".pop"
-            android:theme="@style/AppTheme.CustomTheme">
-        </activity>
+        <activity
+            android:name=".pop"
+            android:theme="@style/AppTheme.CustomTheme" />
+        <activity android:name=".waterReminder" />
+        <activity android:name=".systemClock"
+            android:theme="@style/AppTheme.CustomTheme2"/>
+        <receiver android:name=".alarmReciever"/>
+        <service android:name=".Notifications"
+            android:enabled="true"/>
     </application>
 
 </manifest>

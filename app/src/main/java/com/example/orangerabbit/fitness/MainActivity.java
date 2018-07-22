@@ -26,11 +26,11 @@ public class MainActivity extends AppCompatActivity {
 
     Button HpgSignUpButton,HpgLogInButton;
     TextView HpgSlogan,HpgAppName;
-    UserSessionManager session;
     private FirebaseAuth firebaseAuth;
 
-   // private static final int PERMISSION_REQUEST_CODE = 1;
+    private static final int PERMISSION_REQUEST_CODE = 1;
     private String TAG;
+    UserSessionManager session;
     //Window window = MainActivity.getWindow();
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
@@ -39,19 +39,19 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         isStoragePermissionGranted();
-        firebaseAuth = FirebaseAuth.getInstance();
 
-        if(firebaseAuth.getCurrentUser() != null){
-            finish();
-            Intent i = new Intent(this,Home.class);
-            startActivity(i);
+        session = new UserSessionManager(getApplicationContext());
+
+        if (session.checkLogin()){
+
+            finishAffinity();
         }
-
-//        session = new UserSessionManager(getApplicationContext());
+//        firebaseAuth = FirebaseAuth.getInstance();
 //
-//        if (session.isUserLoggedIn()){
-//
-//            startActivity(new Intent(this, Home.class));
+//        if(firebaseAuth.getCurrentUser() != null){
+//            finish();
+//            Intent i = new Intent(this,Home.class);
+//            startActivity(i);
 //        }
 
         HpgSignUpButton=findViewById(R.id.HpgSignUpButton);
@@ -69,7 +69,6 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent signUp = new Intent(MainActivity.this,SignUp.class);
                 startActivity(signUp);
-                finish();
             }
         });
         HpgLogInButton.setOnClickListener(new View.OnClickListener(){

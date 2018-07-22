@@ -19,5 +19,7 @@
     <string name="water_intake">Water Intake</string>
     <string name="glasses_consumed">glasses consumed</string>
     <string name="reminder_ellipsis">reminder_ellipsis</string>
+    <string name="water_reminder_toolText">Water Reminder</string>
+
 
 </resources>
